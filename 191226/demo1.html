@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue -- 数据上移下移(自己写的~哈哈)</title>
+    <script src="node_modules/vue/dist/vue.min.js"></script>
+    <style>
+        ul {
+            list-style: none;
+            width: 400px;
+            margin: 200px auto;
+        }
+        li {
+            margin: 10px 0;
+            background: #efefef;
+            padding: 5px 10px;
+            border-radius: 2px;
+            border: 1px solid #efefef;
+        }
+        .action {
+            float: right;
+        }
+        .action span {
+            display: inline-block;
+            cursor: pointer;
+            background: red;
+            color: #fff;
+        }
+        .action span:last-child {
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="app">
+        <ul>
+            <li 
+            v-for="(item, index) in list" 
+            :key="item.id"
+            >
+                {{ item.id }}
+                {{ item.title }}
+                (index: {{ index }})
+                <div class="action">
+                    <span @click="up(index)" v-if="index !== 0">上</span>
+                    <span @click="down(index)" v-if="index !== list.length - 1">下</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+    
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                list: [
+                    {
+                        id: 1,
+                        title: '计算机'
+                    },
+                    {
+                        id: 2,
+                        title: '笔记本电脑'
+                    },
+                    {
+                        id: 3,
+                        title: '超薄便携本'
+                    },
+                    {
+                        id: 4,
+                        title: '机械键盘'
+                    },
+                    {
+                        id: 5,
+                        title: '无线键鼠套装'
+                    },
+                    {
+                        id: 6,
+                        title: '小米9'
+                    },
+                    {
+                        id: 7,
+                        title: '华为P30'
+                    },
+                    {
+                        id: 8,
+                        title: '戴尔外星人'
+                    },
+                    {
+                        id: 9,
+                        title: '惠普暗夜精灵'
+                    },
+                    {
+                        id: 10,
+                        title: 'Mackbook pro'
+                    }
+                ]
+            },
+            methods: {
+                up (index) {
+                    this.switchItem(index, this.list, 'up');
+                },
+                down (index) {
+                    this.switchItem(index, this.list, 'down');
+                },
+                switchItem(index, arr, dir) {
+                    let current = arr[index]
+                    let _index = dir === 'up' ? index - 1 : index+1
+                    let _change = arr[_index];
+                    arr.splice(index, 1, _change);
+                    arr.splice(_index, 1, current)
+                }
+            }            
+        })
+    </script>
+</body>
+</html>
